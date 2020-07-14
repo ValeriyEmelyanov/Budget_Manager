@@ -198,6 +198,22 @@ files:
 
     }
   learner_created: false
+- name: src/budget/Main.java
+  visible: true
+  learner_created: true
+- name: src/budget/ConsoleView.java
+  visible: true
+  learner_created: true
+- name: src/budget/Model.java
+  visible: true
+  learner_created: true
+- name: src/budget/Controller.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/76/stages/422/implement
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/76/stages/422/implement">JetBrains
+    Academy</a>
+  time: Tue, 14 Jul 2020 09:41:16 UTC
 record: -1
