@@ -1,4 +1,8 @@
-package budget;
+package budget.controller;
+
+import budget.view.ConsoleView;
+import budget.model.Model;
+import budget.model.PurchaseItem;
 
 import java.util.List;
 import java.util.Scanner;
@@ -18,7 +22,7 @@ public class Controller {
             switch (action) {
                 case "0":
                     exit = true;
-                    view.showMessage("\nBye!");
+                    view.message("\nBye!");
                     break;
                 case "1":
                     addIncome();
@@ -33,7 +37,7 @@ public class Controller {
                     balance();
                     break;
                 default:
-                    view.showMessage("Wrong action! Try again");
+                    view.message("Wrong action! Try again");
             }
         }
 
@@ -41,32 +45,32 @@ public class Controller {
     }
 
     private void addPurchase() {
-        view.showMessage("\nEnter purchase name:");
+        view.message("\nEnter purchase name:");
         String name = scanner.nextLine();
-        view.showMessage("Enter its price:");
+        view.message("Enter its price:");
         double price = Double.parseDouble(scanner.nextLine());
         model.addPurchase(name, price);
-        view.showMessage("Purchase was added!\n");
+        view.message("Purchase was added!\n");
     }
 
     private void showPurchasesList() {
-        List<String> purchasesList = model.getPurchasesList();
+        List<PurchaseItem> purchasesList = model.getPurchasesList();
         if (purchasesList.isEmpty()) {
-            view.showMessage("\nPurchase list is empty\n");
+            view.message("\nPurchase list is empty\n");
         } else {
-            view.showList(purchasesList);
-            view.showMessage(String.format("Total sum: $%.2f\n", model.getTotalSum()));
+            view.list(purchasesList);
+            view.messageWithSum("Total sum:", model.getTotalSum());
         }
     }
 
     private void balance() {
-        view.showMessage(String.format("\nBalance: $%.2f\n", model.getBalance()));
+        view.messageWithSum("\nBalance:", model.getBalance());
     }
 
     private void addIncome() {
-        view.showMessage("\nEnter income:");
+        view.message("\nEnter income:");
         double num = Double.parseDouble(scanner.nextLine());
         model.addIncome(num);
-        view.showMessage("Income was added!\n");
+        view.message("Income was added!\n");
     }
 }

@@ -1,4 +1,4 @@
-package budget;
+package budget.view;
 
 import java.util.List;
 
@@ -12,11 +12,15 @@ public class ConsoleView {
         System.out.println("0) Exit");
     }
 
-    public void showMessage(String message) {
+    public void message(String message) {
         System.out.println(message);
     }
 
-    public void showList(List<String> list) {
+    public void messageWithSum(String message, double sum) {
+        System.out.printf("%s $%.2f\n\n", message, sum);
+    }
+
+    public void list(List<?> list) {
         System.out.println();
         list.forEach(System.out::println);
     }

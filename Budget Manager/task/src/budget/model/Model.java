@@ -1,11 +1,10 @@
-package budget;
+package budget.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
-    private final List<String> purchasesList = new ArrayList<>();
-    private long totalSum = 0;
+    private final List<PurchaseItem> purchasesList = new ArrayList<>();
     private long balance = 0;
 
     public void addIncome(double num) {
@@ -16,17 +15,20 @@ public class Model {
         return balance / 100.;
     }
 
-    public List<String> getPurchasesList() {
+    public List<PurchaseItem> getPurchasesList() {
         return new ArrayList<>(purchasesList);
     }
 
     public double getTotalSum() {
+        long totalSum = 0;
+        for (PurchaseItem item : purchasesList) {
+            totalSum += item.getLongPrice();
+        }
         return totalSum / 100.;
     }
 
     public void addPurchase(String name, double price) {
-        purchasesList.add(String.format("%s $%.2f", name.trim(), price));
-        totalSum += (long) (price * 100.);
+        purchasesList.add(new PurchaseItem(name, price));
         balance -= (long) (price * 100.);
         if (balance < 0) {
             balance = 0;
