@@ -3,14 +3,20 @@ package budget.model;
 public class PurchaseItem {
     private final String name;
     private final long price;
+    private final Category category;
 
-    public PurchaseItem(String name, double price) {
+    public PurchaseItem(String name, double price, Category category) {
         this.name = name;
         this.price = (long) (price * 100.);
+        this.category = category;
     }
 
     long getLongPrice() {
         return price;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     @Override
