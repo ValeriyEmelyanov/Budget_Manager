@@ -2,16 +2,16 @@ package budget.model;
 
 public class PurchaseItem {
     private final String name;
-    private final long price;
+    private final double price;
     private final Category category;
 
     public PurchaseItem(String name, double price, Category category) {
         this.name = name;
-        this.price = (long) (price * 100.);
+        this.price = price;
         this.category = category;
     }
 
-    long getLongPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -19,8 +19,12 @@ public class PurchaseItem {
         return category;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return String.format("%s $%.2f", name, price / 100.);
+        return String.format("%s $%.2f", name, price);
     }
 }

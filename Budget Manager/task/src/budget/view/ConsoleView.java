@@ -11,6 +11,8 @@ public class ConsoleView {
         System.out.println("2) Add purchase");
         System.out.println("3) Show list of purchases");
         System.out.println("4) Balance");
+        System.out.println("5) Save");
+        System.out.println("6) Load");
         System.out.println("0) Exit");
     }
 
@@ -32,7 +34,7 @@ public class ConsoleView {
 
     public void categoryName(Category category) {
         String name = category.name();
-        System.out.printf("\n%s%s:", name.substring(0, 1), name.substring(1).toLowerCase());
+        System.out.printf("\n%s%s:\n", name.substring(0, 1), name.substring(1).toLowerCase());
     }
 
     public void categories() {

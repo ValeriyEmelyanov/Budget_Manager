@@ -6,14 +6,18 @@ import java.util.stream.Collectors;
 
 public class Model {
     private final List<PurchaseItem> purchasesList = new ArrayList<>();
-    private long balance = 0;
+    private double balance = 0;
 
     public void addIncome(double num) {
-        balance += (long) (num * 100.);
+        balance += num;
     }
 
     public double getBalance() {
-        return balance / 100.;
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public List<PurchaseItem> getPurchasesList() {
@@ -27,29 +31,33 @@ public class Model {
     }
 
     public double getTotalSum() {
-        long totalSum = 0;
+        double totalSum = 0;
         for (PurchaseItem item : purchasesList) {
-            totalSum += item.getLongPrice();
+            totalSum += item.getPrice();
         }
-        return totalSum / 100.;
+        return totalSum;
     }
 
     public double getTotalSum(Category category) {
-        long totalSum = 0;
+        double totalSum = 0;
         for (PurchaseItem item : purchasesList) {
             if (item.getCategory() != category) {
                 continue;
             }
-            totalSum += item.getLongPrice();
+            totalSum += item.getPrice();
         }
-        return totalSum / 100.;
+        return totalSum;
     }
 
     public void addPurchase(String name, double price, Category category) {
         purchasesList.add(new PurchaseItem(name, price, category));
-        balance -= (long) (price * 100.);
+        balance -= price;
         if (balance < 0) {
             balance = 0;
         }
+    }
+
+    public void addPurchaseWithNoChangeBalance(String name, double price, Category category) {
+        purchasesList.add(new PurchaseItem(name, price, category));
     }
 }

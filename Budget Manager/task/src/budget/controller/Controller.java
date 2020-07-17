@@ -5,10 +5,17 @@ import budget.model.Model;
 import budget.model.PurchaseItem;
 import budget.view.ConsoleView;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
+    private static final String PATH_TO_STORAGE = "purchases.txt";
+    private static final String DELIMITER = ";";
+
     private final ConsoleView view = new ConsoleView();
     private final Model model = new Model();
     final Scanner scanner = new Scanner(System.in);
@@ -37,12 +44,68 @@ public class Controller {
                 case "4":
                     balance();
                     break;
+                case "5":
+                    save();
+                    break;
+                case "6":
+                    load();
+                    break;
                 default:
                     view.message("Wrong action! Try again");
             }
         }
 
         scanner.close();
+    }
+
+    private void load() {
+        File file = new File(PATH_TO_STORAGE);
+        if (!file.exists()) {
+            view.message("The file does not exist.");
+            return;
+        }
+
+        try (Scanner scanner = new Scanner(file)) {
+            if (!scanner.hasNextLine()) {
+                view.message("The file is empty.");
+                return;
+            }
+
+            model.setBalance(Double.parseDouble(scanner.nextLine().replaceAll(",", ".")));
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                int firstDelimiter = line.indexOf(DELIMITER);
+                int lastDelimiter = line.lastIndexOf(DELIMITER);
+                model.addPurchaseWithNoChangeBalance(
+                        line.substring(firstDelimiter + 1, lastDelimiter),
+                        Double.parseDouble(line.substring(lastDelimiter + 1).replaceAll(",", ".")),
+                        Category.valueOf(line.substring(0, firstDelimiter))
+                );
+            }
+
+            view.message("\nPurchases were loaded!\n");
+        } catch (IOException e) {
+            view.message("The file was not loaded: " + e.getMessage());
+        }
+    }
+
+    private void save() {
+        try (FileWriter writer = new FileWriter(PATH_TO_STORAGE)) {
+            writer.write(String.format("%f\n", model.getBalance()));
+            for (PurchaseItem item : model.getPurchasesList()) {
+                writer.write(String.format("%s%s%s%s%f\n",
+                        item.getCategory(),
+                        DELIMITER,
+                        item.getName(),
+                        DELIMITER,
+                        item.getPrice()));
+            }
+
+            view.message("\nPurchases were saved!\n");
+        } catch (IOException e) {
+            view.message("The file was not saved: " + e.getMessage());
+        }
     }
 
     private void addPurchase() {
