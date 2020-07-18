@@ -6,7 +6,6 @@ import budget.model.PurchaseItem;
 import budget.view.ConsoleView;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -50,12 +49,78 @@ public class Controller {
                 case "6":
                     load();
                     break;
+                case "7":
+                    analyze();
+                    break;
                 default:
                     view.message("Wrong action! Try again");
             }
         }
 
         scanner.close();
+    }
+
+    private void analyze() {
+        while (true) {
+            view.analysisMenu();
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "1":
+                    sortAllPurchases();
+                    break;
+                case "2":
+                    sortByType();
+                    break;
+                case "3":
+                    sortCertainType();
+                    break;
+                case "4":
+                    view.emptyLine();
+                    return;
+                default:
+                    view.message("Invalid choice!\n");
+            }
+        }
+    }
+
+    private void sortAllPurchases() {
+        List<PurchaseItem> list = model.getPurchasesList();
+        if (list.isEmpty()) {
+            view.message("\nPurchase list is empty!");
+        } else {
+            list.sort((item1, item2) -> Double.compare(item2.getPrice(), item1.getPrice()));
+
+            view.message("\nAll:");
+            view.list(list);
+            view.messageWithSum("Total:", model.getTotalSum());
+        }
+    }
+
+    private void sortByType() {
+        view.message("\nTypes:");
+        view.listTree(model.getSortedCategiriesWithSum());
+        view.messageWithSum("Total sum:", model.getTotalSum());
+    }
+
+    private void sortCertainType() {
+        view.typeOfPurchaseMenu();
+        String choice = scanner.nextLine();
+        if (choice.length() != 1 || !"1|2|3|4".contains(choice)) {
+            view.message("Invalid choice");
+            return;
+        }
+
+        Category category = Category.values()[Integer.parseInt(choice) - 1];
+        List<PurchaseItem> list = model.getPurchasesList(category);
+        if (list.isEmpty()) {
+            view.message("\nPurchase list is empty!");
+            return;
+        }
+
+        list.sort((item1, item2) -> Double.compare(item2.getPrice(), item1.getPrice()));
+        view.message(String.format("\n%s:", category.getName()));
+        view.list(list);
+        view.messageWithSum("Total sum:", model.getTotalSum(category));
     }
 
     private void load() {
@@ -173,7 +238,7 @@ public class Controller {
             } else {
                 Category category = Category.values()[categoryChoice - 1];
                 List<PurchaseItem> purchasesList = model.getPurchasesList(category);
-                view.categoryName(category);
+                view.message(String.format("\n%s:", category.getName()));
                 if (purchasesList.isEmpty()) {
                     view.message("\nPurchase list is empty!");
                 } else {

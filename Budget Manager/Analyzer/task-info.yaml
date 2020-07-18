@@ -395,6 +395,31 @@ files:
         }
     }
   learner_created: false
+- name: src/budget/model/Model.java
+  visible: true
+  learner_created: true
+- name: src/budget/Main.java
+  visible: true
+  learner_created: true
+- name: src/budget/controller/Controller.java
+  visible: true
+  learner_created: true
+- name: purchases.txt
+  visible: true
+  learner_created: true
+- name: src/budget/view/ConsoleView.java
+  visible: true
+  learner_created: true
+- name: src/budget/model/PurchaseItem.java
+  visible: true
+  learner_created: true
+- name: src/budget/model/Category.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/76/stages/425/implement
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/76/stages/425/implement">JetBrains
+    Academy</a>
+  time: Sat, 18 Jul 2020 14:01:03 UTC
 record: -1
